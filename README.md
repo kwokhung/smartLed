@@ -1,1 +1,1 @@
-# smartLed
+git clone https://github.com/kwokhung/smartLed.git
