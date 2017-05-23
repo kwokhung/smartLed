@@ -1,4 +1,4 @@
-uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
+--uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
 --wifi.setmode(wifi.STATION)
 --wifi.sta.config("mxjk", "mxjk2015")
 m = mqtt.Client("ad7cad07680c47ff80677b3c19bbe6dc", 120, "mbltest01/nodemcu01", "e61m/mza6z5HY0eD4n/sbagP6mkDZeFfmmxSh5KER0w=")
