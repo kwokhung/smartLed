@@ -1,6 +1,11 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+#define RPIN 0x05
+#define GPIN 0x04
+#define BPIN 0x00
+const uint8_t LED = RPIN;
+
 const char *ssid = "MASON-IT";
 const char *password = "22182830";
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
@@ -12,8 +17,8 @@ void setup()
 {
     Serial.begin(115200);
 
-    pinMode(4, OUTPUT);
-    digitalWrite(4, HIGH);
+    pinMode(LED, OUTPUT);
+    digitalWrite(LED, HIGH);
 
     setup_wifi();
 
@@ -69,11 +74,11 @@ void callback(char *topic, byte *payload, unsigned int length)
 
     if ((char)payload[0] == 'o' && (char)payload[1] == 'n')
     {
-        digitalWrite(4, LOW);
+        digitalWrite(LED, LOW);
     }
     else if ((char)payload[0] == 'o' && (char)payload[1] == 'f' && (char)payload[2] == 'f')
     {
-        digitalWrite(4, HIGH);
+        digitalWrite(LED, HIGH);
     }
 
     Serial.println();
