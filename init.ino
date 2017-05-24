@@ -1,26 +1,35 @@
+
 /*
- ESP8266 Blink by Simon Peter
- Blink the blue LED on the ESP-01 module
- This example code is in the public domain
- 
- The blue LED on the ESP-01 module is connected to GPIO1 
- (which is also the TXD pin; so we cannot use Serial.print() at the same time)
- 
- Note that this sketch uses LED_BUILTIN to find the pin with the internal LED
-*/
+ * NativeSdk by Simon Peter
+ * Access functionality from the Espressif ESP8266 SDK
+ * This example code is in the public domain
+ * 
+ * This is for advanced users.
+ * Note that this makes your code dependent on the ESP8266, which is generally
+ * a bad idea. So you should try to use esp8266/Arduino functionality
+ * where possible instead, in order to abstract away the hardware dependency.
+ */
+
+// Expose Espressif SDK functionality - wrapped in ifdef so that it still
+// compiles on other platforms
+#ifdef ESP8266
+extern "C" {
+#include "user_interface.h"
+}
+#endif
 
 void setup()
 {
-    pinMode(LED_BUILTIN, OUTPUT); // Initialize the LED_BUILTIN pin as an output
+    Serial.begin(115200);
 }
 
-// the loop function runs over and over again forever
 void loop()
 {
-    digitalWrite(LED_BUILTIN, LOW);  // Turn the LED on (Note that LOW is the voltage level
-                                     // but actually the LED is on; this is because
-                                     // it is acive low on the ESP-01)
-    delay(1000);                     // Wait for a second
-    digitalWrite(LED_BUILTIN, HIGH); // Turn the LED off by making the voltage HIGH
-    delay(2000);                     // Wait for two seconds (to demonstrate the active low LED)
+// Call Espressif SDK functionality - wrapped in ifdef so that it still
+// compiles on other platforms
+#ifdef ESP8266
+    Serial.print("wifi_station_get_hostname: ");
+    Serial.println(wifi_station_get_hostname());
+#endif
+    delay(1000);
 }
