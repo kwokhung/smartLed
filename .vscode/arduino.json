@@ -1,5 +1,5 @@
 {
-    "sketch": "TestMqtt.ino",
+    "sketch": "TestESP8266.ino",
     "port": "COM5",
     "board": "esp8266:esp8266:nodemcuv2",
     "output": null,
