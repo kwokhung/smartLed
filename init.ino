@@ -1,122 +1,102 @@
-// Example: Storing struct data in RTC user rtcDataory
-//
-// Struct data with the maximum size of 512 bytes can be stored
-// in the RTC user rtcDataory using the ESP-specifc APIs.
-// The stored data can be retained between deep sleep cycles.
-// However, the data might be lost after power cycling the ESP8266.
-//
-// This example uses deep sleep mode, so connect GPIO16 and RST
-// pins before running it.
-//
-// Created Mar 30, 2016 by Macro Yau.
-//
-// This example code is in the public domain.
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
 
-// CRC function used to ensure data validity
-uint32_t calculateCRC32(const uint8_t *data, size_t length);
+const char *ssid = "";
+const char *password = "";
 
-// helper function to dump memory contents as hex
-void printMemory();
+//const char *mqtt_server = "test.mosquitto.org";
+//const char* mqtt_server = "iot.eclipse.org";
+//const char *mqtt_server = "broker.mqtt-dashboard.com";
+const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
-// Structure which will be stored in RTC memory.
-// First field is CRC32, which is calculated based on the
-// rest of structure contents.
-// Any fields can go after CRC32.
-// We use byte array as an example.
-struct
-{
-    uint32_t crc32;
-    byte data[508];
-} rtcData;
+WiFiClient espClient;
+PubSubClient client(espClient);
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.println();
-    delay(1000);
 
-    // Read struct from RTC memory
-    if (ESP.rtcUserMemoryRead(0, (uint32_t *)&rtcData, sizeof(rtcData)))
+    pinMode(4, OUTPUT);
+    digitalWrite(4, HIGH);
+    Serial.begin(115200);
+    setup_wifi();
+    client.setServer(mqtt_server, 1883);
+    client.setCallback(callback);
+    reconnect();
+}
+
+void setup_wifi()
+{
+
+    delay(10);
+    // We start by connecting to a WiFi network
+    Serial.println();
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+
+    WiFi.begin("MASON-IT", "22182830");
+
+    while (WiFi.status() != WL_CONNECTED)
     {
-        Serial.println("Read: ");
-        printMemory();
-        Serial.println();
-        uint32_t crcOfData = calculateCRC32(((uint8_t *)&rtcData) + 4, sizeof(rtcData) - 4);
-        Serial.print("CRC32 of data: ");
-        Serial.println(crcOfData, HEX);
-        Serial.print("CRC32 read from RTC: ");
-        Serial.println(rtcData.crc32, HEX);
-        if (crcOfData != rtcData.crc32)
+        delay(500);
+        Serial.print(".");
+    }
+
+    Serial.println("");
+    Serial.println("WiFi connected");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+}
+
+void callback(char *topic, byte *payload, unsigned int length)
+{
+    Serial.print("Message arrived [");
+    Serial.print(topic);
+    Serial.print("] ");
+    for (int i = 0; i < length; i++)
+    {
+        Serial.print((char)payload[i]);
+    }
+
+    if ((char)payload[0] == 'o' && (char)payload[1] == 'n') //on
+        digitalWrite(4, LOW);
+    else if ((char)payload[0] == 'o' && (char)payload[1] == 'f' && (char)payload[2] == 'f') //off
+        digitalWrite(4, HIGH);
+
+    Serial.println();
+}
+
+void reconnect()
+{
+    // Loop until we're reconnected
+    while (!client.connected())
+    {
+        Serial.print("Attempting MQTT connection...");
+        // Attempt to connect
+        if (client.connect("ad7cad07680c47ff80677b3c19bbe6dc", "mbltest01/nodemcu01", "e61m/mza6z5HY0eD4n/sbagP6mkDZeFfmmxSh5KER0w="))
         {
-            Serial.println("CRC32 in RTC memory doesn't match CRC32 of data. Data is probably invalid!");
+            Serial.println("connected");
+            // Once connected, publish an announcement...
+            client.publish("letv1s01", "1023");
+            // ... and resubscribe
+            client.subscribe("nodemcu01");
         }
         else
         {
-            Serial.println("CRC32 check ok, data is probably valid.");
+            Serial.print("failed, rc=");
+            Serial.print(client.state());
+            Serial.println(" try again in 5 seconds");
+            // Wait 5 seconds before retrying
+            delay(5000);
         }
     }
-
-    // Generate new data set for the struct
-    for (int i = 0; i < sizeof(rtcData); i++)
-    {
-        rtcData.data[i] = random(0, 128);
-    }
-    // Update CRC32 of data
-    rtcData.crc32 = calculateCRC32(((uint8_t *)&rtcData) + 4, sizeof(rtcData) - 4);
-    // Write struct to RTC memory
-    if (ESP.rtcUserMemoryWrite(0, (uint32_t *)&rtcData, sizeof(rtcData)))
-    {
-        Serial.println("Write: ");
-        printMemory();
-        Serial.println();
-    }
-
-    Serial.println("Going into deep sleep for 5 seconds");
-    ESP.deepSleep(5e6);
 }
 
 void loop()
 {
-}
 
-uint32_t calculateCRC32(const uint8_t *data, size_t length)
-{
-    uint32_t crc = 0xffffffff;
-    while (length--)
+    if (!client.connected())
     {
-        uint8_t c = *data++;
-        for (uint32_t i = 0x80; i > 0; i >>= 1)
-        {
-            bool bit = crc & 0x80000000;
-            if (c & i)
-            {
-                bit = !bit;
-            }
-            crc <<= 1;
-            if (bit)
-            {
-                crc ^= 0x04c11db7;
-            }
-        }
+        reconnect();
     }
-    return crc;
-}
-
-void printMemory()
-{
-    char buf[3];
-    for (int i = 0; i < sizeof(rtcData); i++)
-    {
-        sprintf(buf, "%02X", rtcData.data[i]);
-        Serial.print(buf);
-        if ((i + 1) % 32 == 0)
-        {
-            Serial.println();
-        }
-        else
-        {
-            Serial.print(" ");
-        }
-    }
-    Serial.println();
+    client.loop();
 }
