@@ -3,14 +3,14 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\Users\\brianchu\\Documents\\Arduino\\libraries",
-                "C:\\Users\\brianchu\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0"
+                "C:\\Users\\brianchu\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0",
+                "C:\\Users\\brianchu\\Documents\\Arduino\\libraries"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "C:\\Users\\brianchu\\Documents\\Arduino\\libraries",
-                    "C:\\Users\\brianchu\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0"
+                    "C:\\Users\\brianchu\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0",
+                    "C:\\Users\\brianchu\\Documents\\Arduino\\libraries"
                 ]
             }
         }
