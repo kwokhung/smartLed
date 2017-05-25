@@ -4,7 +4,8 @@
 #define RPIN 0x05
 #define GPIN 0x04
 #define BPIN 0x00
-const uint8_t LED = RPIN;
+const int LED = BPIN;
+int ledValue = 0;
 
 const char *ssid = "MASON-IT";
 const char *password = "22182830";
@@ -19,6 +20,8 @@ void setup()
 
     pinMode(LED, OUTPUT);
     digitalWrite(LED, HIGH);
+    //ledValue = map(1023, 0, 1023, 0, 255);
+    //analogWrite(LED, ledValue);
 
     setup_wifi();
 
@@ -80,6 +83,9 @@ void callback(char *topic, byte *payload, unsigned int length)
     {
         digitalWrite(LED, HIGH);
     }
+
+    //ledValue = map(1023 - 0, 0, 1023, 0, 255);
+    //analogWrite(LED, ledValue);
 
     Serial.println();
 }
