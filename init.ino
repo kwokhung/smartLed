@@ -99,6 +99,11 @@ void callback(char *topic, byte *payload, unsigned int length)
     {
         analogWrite(LED, 1023 - payloadLong);
     }
+    else if (payloadLong == 0)
+    {
+        analogWrite(LED, 0);
+        digitalWrite(LED, HIGH);
+    }
 
     Serial.println();
 }
