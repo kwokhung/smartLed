@@ -70,22 +70,35 @@ void callback(char *topic, byte *payload, unsigned int length)
     Serial.print(topic);
     Serial.print("] ");
 
+    String payloadString = "";
+
     for (int i = 0; i < length; i++)
     {
-        Serial.print((char)payload[i]);
+        payloadString += (char)payload[i];
     }
 
-    if ((char)payload[0] == 'o' && (char)payload[1] == 'n')
+    long payloadLong = payloadString.toInt();
+
+    Serial.print('*');
+    Serial.print(payloadString);
+    Serial.print('*');
+    Serial.print(payloadLong);
+    Serial.print('*');
+
+    if (payloadString == "on")
     {
+        analogWrite(LED, 0);
         digitalWrite(LED, LOW);
     }
-    else if ((char)payload[0] == 'o' && (char)payload[1] == 'f' && (char)payload[2] == 'f')
+    else if (payloadString == "off")
     {
+        analogWrite(LED, 0);
         digitalWrite(LED, HIGH);
     }
-
-    //ledValue = map(1023 - 0, 0, 1023, 0, 255);
-    //analogWrite(LED, ledValue);
+    else if (payloadLong > 0)
+    {
+        analogWrite(LED, 1023 - payloadLong);
+    }
 
     Serial.println();
 }
