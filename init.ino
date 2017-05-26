@@ -1,9 +1,9 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define RPIN 0x05
-#define GPIN 0x04
-#define BPIN 0x00
+#define RPIN 5
+#define GPIN 4
+#define BPIN 0
 const int LED = BPIN;
 int ledValue = 0;
 
