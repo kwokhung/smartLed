@@ -115,7 +115,7 @@ void reconnect()
         {
             Serial.println("connected");
 
-            client.publish("letv1s01", "1023");
+            client.publish("letv1s01", "{\"RVALUE\":0,\"GVALUE\":0,\"BVALUE\":0}");
             client.subscribe("nodemcu01");
         }
         else
