@@ -1,16 +1,17 @@
+#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define RPIN 5
-#define GPIN 4
-#define BPIN 0
-const int LED = BPIN;
-int ledValue = 0;
+#define RLED 5
+#define GLED 4
+#define BLED 0
 
 const char *ssid = "MASON-IT";
 const char *password = "22182830";
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
+//StaticJsonBuffer<512> jsonBuffer;
+DynamicJsonBuffer jsonBuffer;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -18,10 +19,12 @@ void setup()
 {
     Serial.begin(115200);
 
-    pinMode(LED, OUTPUT);
-    digitalWrite(LED, HIGH);
-    //ledValue = map(1023, 0, 1023, 0, 255);
-    //analogWrite(LED, ledValue);
+    pinMode(RLED, OUTPUT);
+    pinMode(GLED, OUTPUT);
+    pinMode(BLED, OUTPUT);
+    digitalWrite(RLED, HIGH);
+    digitalWrite(GLED, HIGH);
+    digitalWrite(BLED, HIGH);
 
     setup_wifi();
 
@@ -33,7 +36,6 @@ void setup()
 
 void loop()
 {
-
     if (!client.connected())
     {
         reconnect();
@@ -44,8 +46,6 @@ void loop()
 
 void setup_wifi()
 {
-    delay(10);
-
     Serial.println();
     Serial.print("Connecting to ");
     Serial.println(ssid);
@@ -77,35 +77,32 @@ void callback(char *topic, byte *payload, unsigned int length)
         payloadString += (char)payload[i];
     }
 
-    long payloadLong = payloadString.toInt();
+    JsonObject &payloadJson = jsonBuffer.parseObject(payloadString);
 
     Serial.print('*');
     Serial.print(payloadString);
-    Serial.print('*');
-    Serial.print(payloadLong);
-    Serial.print('*');
 
-    if (payloadString == "on")
-    {
-        analogWrite(LED, 0);
-        digitalWrite(LED, LOW);
-    }
-    else if (payloadString == "off")
-    {
-        analogWrite(LED, 0);
-        digitalWrite(LED, HIGH);
-    }
-    else if (payloadLong > 0)
-    {
-        analogWrite(LED, 1023 - payloadLong);
-    }
-    else if (payloadLong == 0)
-    {
-        analogWrite(LED, 0);
-        digitalWrite(LED, HIGH);
-    }
+    lightIt(RLED, payloadJson["RVALUE"].as<int>());
+    lightIt(GLED, payloadJson["GVALUE"].as<int>());
+    lightIt(BLED, payloadJson["BVALUE"].as<int>());
 
-    Serial.println();
+    Serial.println('*');
+}
+
+void lightIt(int led, int brightness)
+{
+    Serial.print('*');
+    Serial.print(brightness);
+
+    if (brightness > 0)
+    {
+        analogWrite(led, 1023 - brightness);
+    }
+    else if (brightness == 0)
+    {
+        analogWrite(led, 0);
+        digitalWrite(led, HIGH);
+    }
 }
 
 void reconnect()
