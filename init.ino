@@ -11,7 +11,6 @@ const char *password = "22182830";
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
 //StaticJsonBuffer<512> jsonBuffer;
-DynamicJsonBuffer jsonBuffer;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -77,6 +76,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         payloadString += (char)payload[i];
     }
 
+    DynamicJsonBuffer jsonBuffer;
     JsonObject &payloadJson = jsonBuffer.parseObject(payloadString);
 
     Serial.print('*');
