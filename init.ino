@@ -100,7 +100,7 @@ void lightIt(int led, int brightness)
     }
     else if (brightness == 0)
     {
-        analogWrite(led, 0);
+        analogWrite(led, 1023);
         digitalWrite(led, HIGH);
     }
 }
