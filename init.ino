@@ -1,6 +1,9 @@
 #include <SSD1306.h>
 #include <qrcode.h>
 
+#define SCL 14 // GPI14 / E5 / D5
+#define SDA 12 // GPI12 / E6 / D6
+
 SSD1306 display(0x3c, D6, D5);
 QRcode qrcode(&display);
 
@@ -8,9 +11,9 @@ QRcode qrcode(&display);
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-#define RLED 5
-#define GLED 4
-#define BLED 0
+#define RLED 5 // GPIO5 / E1 / D3
+#define GLED 4 // GPIO4 / E2 / D4
+#define BLED 0 // GPIO0 / E3 / D8
 
 const char *ssid = "MASON-IT";
 const char *password = "22182830";
