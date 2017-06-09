@@ -1,3 +1,9 @@
+#include <SSD1306.h>
+#include <qrcode.h>
+
+SSD1306 display(0x3c, D6, D5);
+QRcode qrcode(&display);
+
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -17,6 +23,18 @@ PubSubClient client(espClient);
 void setup()
 {
     Serial.begin(115200);
+
+    display.init();
+    display.clear();
+    display.display();
+
+    // enable debug qrcode
+    qrcode.debug();
+
+    // Initialize QRcode display using library
+    qrcode.init();
+    // create qrcode
+    qrcode.create("Hello world.");
 
     pinMode(RLED, OUTPUT);
     pinMode(GLED, OUTPUT);
