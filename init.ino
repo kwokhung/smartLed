@@ -1,8 +1,11 @@
 #include <SSD1306.h>
 #include <qrcode.h>
 
-#define SCL 14 // GPI14 / E5 / D5
-#define SDA 12 // GPI12 / E6 / D6
+#define RX0 3 // GPIO3 / RX / D0
+#define TX0 1 // GPIO1 / TX / D1
+
+#define SCL 14 // GPIO14 / E5 / D5
+#define SDA 12 // GPIO12 / E6 / D6
 
 SSD1306 display(0x3c, SDA, SCL);
 QRcode qrcode(&display);
