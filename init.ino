@@ -18,10 +18,10 @@ QRcode qrcode(&display);
 #define GLED 4 // GPIO4 / E2 / D4
 #define BLED 0 // GPIO0 / E3 / D8
 
-//const char *ssid = "MASON-IT";
-//const char *password = "22182830";
-const char *ssid = "mxjk";
-const char *password = "mxjk2015";
+const char *ssid = "MASON-IT";
+const char *password = "22182830";
+//const char *ssid = "mxjk";
+//const char *password = "mxjk2015";
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
 //StaticJsonBuffer<512> jsonBuffer;
