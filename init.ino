@@ -25,7 +25,8 @@ const char *password = "22182830";
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
 //StaticJsonBuffer<512> jsonBuffer;
-WiFiClient espClient;
+//WiFiClient espClient;
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
 void setup()
@@ -50,7 +51,8 @@ void setup()
 
     setup_wifi();
 
-    client.setServer(mqtt_server, 1883);
+    //client.setServer(mqtt_server, 1883);
+    client.setServer(mqtt_server, 1884);
     client.setCallback(callback);
 
     reconnect();
