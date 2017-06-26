@@ -96,8 +96,8 @@ void setupWifi()
         display.clear();
         display.setTextAlignment(TEXT_ALIGN_CENTER);
         display.drawString(64, 8, F("Connecting"));
-        display.drawProgressBar(10, 28, 108, 12, percentage);
-        display.drawString(64, 48, ssid);
+        display.drawString(64, 28, ssid);
+        display.drawProgressBar(10, 48, 108, 12, percentage);
         display.display();
 
         percentage += 10;
@@ -113,7 +113,8 @@ void setupWifi()
         randomSeed(analogRead(0));
         long randNumber = random(100, 1000);
         String mySsid = "ESP" + String(random(100, 1000), DEC);
-        String myPassword = String(random(10000000, 100000000), DEC);
+        //String myPassword = String(random(10000000, 100000000), DEC);
+        String myPassword = "12345678";
 
         Serial.println("");
         Serial.println("Configuring access point...");
@@ -122,15 +123,32 @@ void setupWifi()
 
         WiFi.softAP(const_cast<char *>(mySsid.c_str()), const_cast<char *>(myPassword.c_str()));
         //WiFi.softAP(mySsid, myPassword);
-        
+
         IPAddress myIP = WiFi.softAPIP();
-        connectInfo = myIP.toString() + "/" + mySsid + "/" + myPassword;
+
+        connectInfo = mySsid + "/" + myPassword + "/" + myIP.toString();
 
         Serial.print("Connect Info: ");
         Serial.println(connectInfo);
 
-        qrcode.create(connectInfo);
-        server.on("/", handleRoot);
+        //qrcode.create(connectInfo);
+        display.clear();
+        display.setTextAlignment(TEXT_ALIGN_CENTER);
+        display.drawString(64, 8, "SSID: " + mySsid);
+        display.drawString(64, 28, "Password: " + myPassword);
+        display.drawString(64, 48, "IP: " + myIP.toString());
+        display.display();
+
+        server.on("/", HTTP_GET, []() {
+            server.send(200, "text/html", "<h1>You are connected</h1><p>" + connectInfo + "</p>");
+        });
+
+        server.on("/", HTTP_POST, []() {
+            DynamicJsonBuffer jsonBuffer;
+            JsonObject &payloadJson = jsonBuffer.parseObject(server.arg("plain"));
+            server.send(200, "text/json", "{success:true}");
+        });
+
         server.begin();
 
         while (true)
@@ -147,6 +165,7 @@ void setupWifi()
         display.clear();
         display.setTextAlignment(TEXT_ALIGN_CENTER);
         display.drawString(64, 8, F("Connected"));
+        display.drawString(64, 28, ssid);
         display.drawString(64, 48, WiFi.localIP().toString());
         display.display();
     }
