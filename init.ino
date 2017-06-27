@@ -16,10 +16,6 @@ QRcode qrcode(&display);
 #include <ESP8266WebServer.h>
 #include <PubSubClient.h>
 
-#define RLED 5 // GPIO5 / E1 / D3
-#define GLED 4 // GPIO4 / E2 / D4
-#define BLED 0 // GPIO0 / E3 / D8
-
 //const char *mySsid = "AAA407";
 //const char *myPassword = "12345678";
 //const char *ssid = "aMASON-IT";
@@ -70,16 +66,6 @@ void setupDisplay()
     // qrcode.debug();
     qrcode.init();
     //qrcode.create("Hello world.");
-}
-
-void setupLed()
-{
-    pinMode(RLED, OUTPUT);
-    pinMode(GLED, OUTPUT);
-    pinMode(BLED, OUTPUT);
-    digitalWrite(RLED, HIGH);
-    digitalWrite(GLED, HIGH);
-    digitalWrite(BLED, HIGH);
 }
 
 void setupWifi()
@@ -270,7 +256,7 @@ void reconnect()
     }
 }
 
-void lightIt(int led, int brightness)
+/*void lightIt(int led, int brightness)
 {
     Serial.print('*');
     Serial.print(brightness);
@@ -284,4 +270,4 @@ void lightIt(int led, int brightness)
         analogWrite(led, 1023);
         digitalWrite(led, HIGH);
     }
-}
+}*/
