@@ -255,19 +255,3 @@ void reconnect()
         }
     }
 }
-
-/*void lightIt(int led, int brightness)
-{
-    Serial.print('*');
-    Serial.print(brightness);
-
-    if (brightness > 0)
-    {
-        analogWrite(led, 1023 - brightness);
-    }
-    else if (brightness == 0)
-    {
-        analogWrite(led, 1023);
-        digitalWrite(led, HIGH);
-    }
-}*/
