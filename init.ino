@@ -1,3 +1,4 @@
+#include <EEPROM.h>
 #include <SSD1306.h>
 #include <qrcode.h>
 
@@ -21,21 +22,23 @@ QRcode qrcode(&display);
 
 //const char *mySsid = "AAA407";
 //const char *myPassword = "12345678";
-const char *ssid = "aMASON-IT";
-const char *password = "22182830";
+//const char *ssid = "aMASON-IT";
+//const char *password = "22182830";
 //const char *ssid = "mxjk";
 //const char *password = "mxjk2015";
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
 //StaticJsonBuffer<512> jsonBuffer;
-//WiFiClient espClient;
-WiFiClientSecure espClient;
+WiFiClient espClient;
+//WiFiClientSecure espClient;
 ESP8266WebServer server(80);
 PubSubClient client(espClient);
 String connectInfo;
 
 void setup()
 {
+    EEPROM.begin(512);
+
     //Serial.begin(115200);
     Serial.begin(57600);
 
@@ -81,11 +84,26 @@ void setupLed()
 
 void setupWifi()
 {
+    String ssid = "";
+
+    for (int i = 0; i < 32; i++)
+    {
+        ssid += char(EEPROM.read(i));
+    }
+
+    String password = "";
+
+    for (int i = 32; i < 96; i++)
+    {
+        password += char(EEPROM.read(i));
+    }
+
     Serial.println();
     Serial.print("Connecting to ");
     Serial.println(ssid);
 
-    WiFi.begin(ssid, password);
+    //WiFi.begin(ssid, password);
+    WiFi.begin(const_cast<char *>(ssid.c_str()), const_cast<char *>(password.c_str()));
 
     int percentage = 0;
 
@@ -95,12 +113,14 @@ void setupWifi()
         Serial.print(".");
         display.clear();
         display.setTextAlignment(TEXT_ALIGN_CENTER);
-        display.drawString(64, 8, F("Connecting"));
-        display.drawString(64, 28, ssid);
+        //display.drawString(64, 8, F("Connecting"));
+        //display.drawString(64, 28, ssid);
+        display.drawString(64, 8, ssid);
+        display.drawString(64, 28, password);
         display.drawProgressBar(10, 48, 108, 12, percentage);
         display.display();
 
-        percentage += 10;
+        percentage += 5;
 
         if (percentage > 100)
         {
@@ -121,8 +141,8 @@ void setupWifi()
         Serial.println(mySsid);
         Serial.println(myPassword);
 
-        WiFi.softAP(const_cast<char *>(mySsid.c_str()), const_cast<char *>(myPassword.c_str()));
         //WiFi.softAP(mySsid, myPassword);
+        WiFi.softAP(const_cast<char *>(mySsid.c_str()), const_cast<char *>(myPassword.c_str()));
 
         IPAddress myIP = WiFi.softAPIP();
 
@@ -146,7 +166,27 @@ void setupWifi()
         server.on("/", HTTP_POST, []() {
             DynamicJsonBuffer jsonBuffer;
             JsonObject &payloadJson = jsonBuffer.parseObject(server.arg("plain"));
+            //String payloadString;
+            //payloadJson.printTo(payloadString);
+            //server.send(200, "text/json", payloadString);
+            String newSsid = payloadJson["ssid"].asString();
+            String newPassword = payloadJson["password"].asString();
+            for (int i = 0; i < 96; i++)
+            {
+                EEPROM.write(i, 0);
+            }
+            for (int i = 0; i < newSsid.length(); i++)
+            {
+                EEPROM.write(i, newSsid[i]);
+            }
+            for (int i = 0; i < newPassword.length(); i++)
+            {
+                EEPROM.write(32 + i, newPassword[i]);
+            }
+            EEPROM.commit();
             server.send(200, "text/json", "{success:true}");
+            server.stop();
+            ESP.reset();
         });
 
         server.begin();
@@ -173,17 +213,11 @@ void setupWifi()
 
 void setupMqtt()
 {
-    //client.setServer(mqtt_server, 1883);
-    client.setServer(mqtt_server, 1884);
+    client.setServer(mqtt_server, 1883);
+    //client.setServer(mqtt_server, 1884);
     client.setCallback(callback);
 
     reconnect();
-}
-
-void handleRoot()
-{
-    String response = "<h1>You are connected</h1><p>" + connectInfo + "</p>";
-    server.send(200, "text/html", response);
 }
 
 void callback(char *topic, byte *payload, unsigned int length)
