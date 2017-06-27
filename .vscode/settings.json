@@ -4,6 +4,10 @@
         "iosfwd": "cpp",
         "xlocale": "cpp",
         "xstring": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "vector": "cpp",
+        "xtree": "cpp"
     }
 }
