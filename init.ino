@@ -190,7 +190,7 @@ void setupWifi()
                 EEPROM.write(32 + i, newPassword[i]);
             }
             EEPROM.commit();
-            server.send(200, "text/json", "{success:true}");
+            server.send(200, "application/json", "{success:true}");
             server.stop();
             ESP.reset();
         });
