@@ -1,3 +1,4 @@
+#include "Morse.h"
 #include <EEPROM.h>
 #include <SSD1306.h>
 #include <qrcode.h>
@@ -7,6 +8,15 @@
 
 #define SCL 14 // GPIO14 / E5 / D5
 #define SDA 12 // GPIO12 / E6 / D6
+
+#define OnboardLED 2 // GPIO0 / E4 / D9
+#define RLED 5 // GPIO5 / E1 / D3
+#define GLED 4 // GPIO4 / E2 / D4
+#define BLED 0 // GPIO0 / E3 / D8
+
+Morse morseR(RLED);
+Morse morseG(GLED);
+Morse morseB(BLED);
 
 SSD1306 display(0x3c, SDA, SCL);
 QRcode qrcode(&display);
@@ -66,6 +76,16 @@ void setupDisplay()
     // qrcode.debug();
     qrcode.init();
     //qrcode.create("Hello world.");
+}
+
+void setupLed()
+{
+    pinMode(RLED, OUTPUT);
+    pinMode(GLED, OUTPUT);
+    pinMode(BLED, OUTPUT);
+    digitalWrite(RLED, HIGH);
+    digitalWrite(GLED, HIGH);
+    digitalWrite(BLED, HIGH);
 }
 
 void setupWifi()
@@ -204,6 +224,22 @@ void setupMqtt()
     client.setCallback(callback);
 
     reconnect();
+}
+
+void lightIt(int led, int brightness)
+{
+    Serial.print('*');
+    Serial.print(brightness);
+
+    if (brightness > 0)
+    {
+        analogWrite(led, 1023 - brightness);
+    }
+    else if (brightness == 0)
+    {
+        analogWrite(led, 1023);
+        digitalWrite(led, HIGH);
+    }
 }
 
 void callback(char *topic, byte *payload, unsigned int length)
