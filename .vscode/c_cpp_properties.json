@@ -20,7 +20,8 @@
                     "C:\\Users\\brianchu\\Documents\\Arduino\\libraries",
                     "C:\\Users\\chu_k_000\\Documents\\Arduino\\libraries"
                 ]
-            }
+            },
+            "intelliSenseMode": "msvc-x64"
         }
     ]
 }

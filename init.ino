@@ -10,9 +10,9 @@
 #define SDA 12 // GPIO12 / E6 / D6
 
 #define OnboardLED 2 // GPIO0 / E4 / D9
-#define RLED 5 // GPIO5 / E1 / D3
-#define GLED 4 // GPIO4 / E2 / D4
-#define BLED 0 // GPIO0 / E3 / D8
+#define RLED 5       // GPIO5 / E1 / D3
+#define GLED 4       // GPIO4 / E2 / D4
+#define BLED 0       // GPIO0 / E3 / D8
 
 Morse morseR(RLED);
 Morse morseG(GLED);
@@ -172,26 +172,34 @@ void setupWifi()
         server.on("/", HTTP_POST, []() {
             DynamicJsonBuffer jsonBuffer;
             JsonObject &payloadJson = jsonBuffer.parseObject(server.arg("plain"));
+
             //String payloadString;
             //payloadJson.printTo(payloadString);
             //server.send(200, "text/json", payloadString);
+
             String newSsid = payloadJson["ssid"].asString();
             String newPassword = payloadJson["password"].asString();
+
             for (int i = 0; i < 96; i++)
             {
                 EEPROM.write(i, 0);
             }
+
             for (int i = 0; i < newSsid.length(); i++)
             {
                 EEPROM.write(i, newSsid[i]);
             }
+
             for (int i = 0; i < newPassword.length(); i++)
             {
                 EEPROM.write(32 + i, newPassword[i]);
             }
+
             EEPROM.commit();
+
             server.send(200, "application/json", "{success:true}");
             server.stop();
+
             ESP.reset();
         });
 
@@ -261,9 +269,45 @@ void callback(char *topic, byte *payload, unsigned int length)
     Serial.print('*');
     Serial.print(payloadString);
 
-    lightIt(RLED, payloadJson["RVALUE"].as<int>());
-    lightIt(GLED, payloadJson["GVALUE"].as<int>());
-    lightIt(BLED, payloadJson["BVALUE"].as<int>());
+    String toDo = payloadJson["what"]["toDo"].asString();
+
+    if (toDo == "reset")
+    {
+        String newSsid = payloadJson["what"]["details"]["ssid"].asString();
+        String newPassword = payloadJson["what"]["details"]["password"].asString();
+
+        display.clear();
+        display.setTextAlignment(TEXT_ALIGN_CENTER);
+        display.drawString(64, 8, "SSID: " + newSsid);
+        display.drawString(64, 28, "Password: " + newPassword);
+        display.drawString(64, 48, "Reset");
+        display.display();
+
+        for (int i = 0; i < 96; i++)
+        {
+            EEPROM.write(i, 0);
+        }
+
+        for (int i = 0; i < newSsid.length(); i++)
+        {
+            EEPROM.write(i, newSsid[i]);
+        }
+
+        for (int i = 0; i < newPassword.length(); i++)
+        {
+            EEPROM.write(32 + i, newPassword[i]);
+        }
+
+        EEPROM.commit();
+
+        ESP.reset();
+    }
+    else
+    {
+        lightIt(RLED, payloadJson["RVALUE"].as<int>());
+        lightIt(GLED, payloadJson["GVALUE"].as<int>());
+        lightIt(BLED, payloadJson["BVALUE"].as<int>());
+    }
 
     Serial.println('*');
 }
