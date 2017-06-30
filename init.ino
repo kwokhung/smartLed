@@ -28,7 +28,7 @@ QRcode qrcode(&display);
 
 //const char *mySsid = "AAA407";
 //const char *myPassword = "12345678";
-//const char *ssid = "aMASON-IT";
+//const char *ssid = "MASON-IT";
 //const char *password = "22182830";
 //const char *ssid = "mxjk";
 //const char *password = "mxjk2015";
@@ -198,7 +198,8 @@ void setupWifi()
             EEPROM.commit();
 
             server.send(200, "application/json", "{success:true}");
-            server.stop();
+            delay(1000);
+            //server.stop();
 
             ESP.reset();
         });
