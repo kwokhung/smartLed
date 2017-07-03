@@ -1,4 +1,5 @@
 #include "Morse.h"
+#include <Arduino.h>
 
 Morse::Morse(int pin)
 {

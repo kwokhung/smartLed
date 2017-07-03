@@ -8,6 +8,7 @@
         "initializer_list": "cpp",
         "list": "cpp",
         "vector": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "core_esp8266_wiring_digital.c": "cpp"
     }
 }
