@@ -76,16 +76,6 @@ void setupDisplay()
     //qrcode.create("Hello world.");
 }
 
-/*void setupLed()
-{
-    pinMode(RLED, OUTPUT);
-    pinMode(GLED, OUTPUT);
-    pinMode(BLED, OUTPUT);
-    digitalWrite(RLED, HIGH);
-    digitalWrite(GLED, HIGH);
-    digitalWrite(BLED, HIGH);
-}*/
-
 void setupWifi()
 {
     String ssid = "";
@@ -232,22 +222,6 @@ void setupMqtt()
 
     reconnect();
 }
-
-/*void lightIt(int led, int brightness)
-{
-    Serial.print('*');
-    Serial.print(brightness);
-
-    if (brightness > 0)
-    {
-        analogWrite(led, 1023 - brightness);
-    }
-    else if (brightness == 0)
-    {
-        analogWrite(led, 1023);
-        digitalWrite(led, HIGH);
-    }
-}*/
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
