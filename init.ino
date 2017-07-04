@@ -1,7 +1,8 @@
+#include "OLed.h"
 #include "Led.h"
 #include <EEPROM.h>
 #include <SSD1306.h>
-#include <qrcode.h>
+//#include <qrcode.h>
 
 #define RX0 3 // GPIO3 / RX / D0
 #define TX0 1 // GPIO1 / TX / D1
@@ -9,7 +10,7 @@
 #define SCL 14 // GPIO14 / E5 / D5
 #define SDA 12 // GPIO12 / E6 / D6
 
-#define OnboardLED 2 // GPIO0 / E4 / D9
+#define OnboardLED 2 // GPIO2 / E4 / D9
 #define RLED 5       // GPIO5 / E1 / D3
 #define GLED 4       // GPIO4 / E2 / D4
 #define BLED 0       // GPIO0 / E3 / D8
@@ -18,6 +19,7 @@ Led led(RLED, GLED, BLED);
 
 SSD1306 display(0x3c, SDA, SCL);
 QRcode qrcode(&display);
+OLed oLed(&display, &qrcode);
 
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
@@ -46,7 +48,7 @@ void setup()
     //Serial.begin(115200);
     Serial.begin(57600);
 
-    setupDisplay();
+    oLed.setup();
 
     led.setup();
 
@@ -65,17 +67,6 @@ void loop()
     client.loop();
 }
 
-void setupDisplay()
-{
-    display.init();
-    display.clear();
-    display.display();
-
-    // qrcode.debug();
-    qrcode.init();
-    //qrcode.create("Hello world.");
-}
-
 void setupWifi()
 {
     String ssid = "";
@@ -84,6 +75,7 @@ void setupWifi()
     {
         ssid += char(EEPROM.read(i));
     }
+    ssid = "xxx";
 
     String password = "";
 
@@ -91,6 +83,7 @@ void setupWifi()
     {
         password += char(EEPROM.read(i));
     }
+    ssid = "yyy";
 
     Serial.println();
     Serial.print("Connecting to ");
@@ -105,14 +98,7 @@ void setupWifi()
     {
         delay(500);
         Serial.print(".");
-        display.clear();
-        display.setTextAlignment(TEXT_ALIGN_CENTER);
-        //display.drawString(64, 8, F("Connecting"));
-        //display.drawString(64, 28, ssid);
-        display.drawString(64, 8, ssid);
-        display.drawString(64, 28, password);
-        display.drawProgressBar(10, 48, 108, 12, percentage);
-        display.display();
+        oLed.connecting(ssid, password, percentage);
 
         percentage += 5;
 
@@ -145,13 +131,14 @@ void setupWifi()
         Serial.print("Connect Info: ");
         Serial.println(connectInfo);
 
-        //qrcode.create(connectInfo);
+        /*//qrcode.create(connectInfo);
         display.clear();
         display.setTextAlignment(TEXT_ALIGN_CENTER);
         display.drawString(64, 8, "SSID: " + mySsid);
         display.drawString(64, 28, "Password: " + myPassword);
         display.drawString(64, 48, "IP: " + myIP.toString());
-        display.display();
+        display.display();*/
+        oLed.beAccessPoint(mySsid, myPassword, &myIP);
 
         server.on("/", HTTP_GET, []() {
             server.send(200, "text/html", "<h1>You are connected</h1><p>" + connectInfo + "</p>");
@@ -205,12 +192,7 @@ void setupWifi()
         Serial.println("WiFi connected");
         Serial.println("IP address: ");
         Serial.println(WiFi.localIP());
-        display.clear();
-        display.setTextAlignment(TEXT_ALIGN_CENTER);
-        display.drawString(64, 8, F("Connected"));
-        display.drawString(64, 28, ssid);
-        display.drawString(64, 48, WiFi.localIP().toString());
-        display.display();
+        oLed.connected(ssid, WiFi.localIP().toString());
     }
 }
 
