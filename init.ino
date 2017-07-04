@@ -2,7 +2,6 @@
 #include "Led.h"
 #include <EEPROM.h>
 #include <SSD1306.h>
-//#include <qrcode.h>
 
 #define RX0 3 // GPIO3 / RX / D0
 #define TX0 1 // GPIO1 / TX / D1
@@ -26,15 +25,12 @@ OLed oLed(&display, &qrcode);
 #include <ESP8266WebServer.h>
 #include <PubSubClient.h>
 
-//const char *mySsid = "AAA407";
-//const char *myPassword = "12345678";
 //const char *ssid = "MASON-IT";
 //const char *password = "22182830";
 //const char *ssid = "mxjk";
 //const char *password = "mxjk2015";
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
-//StaticJsonBuffer<512> jsonBuffer;
 WiFiClient espClient;
 //WiFiClientSecure espClient;
 ESP8266WebServer server(80);
@@ -75,7 +71,7 @@ void setupWifi()
     {
         ssid += char(EEPROM.read(i));
     }
-    ssid = "xxx";
+    //ssid = "xxx";
 
     String password = "";
 
@@ -83,13 +79,12 @@ void setupWifi()
     {
         password += char(EEPROM.read(i));
     }
-    ssid = "yyy";
+    //ssid = "yyy";
 
     Serial.println();
     Serial.print("Connecting to ");
     Serial.println(ssid);
 
-    //WiFi.begin(ssid, password);
     WiFi.begin(const_cast<char *>(ssid.c_str()), const_cast<char *>(password.c_str()));
 
     int percentage = 0;
@@ -121,7 +116,6 @@ void setupWifi()
         Serial.println(mySsid);
         Serial.println(myPassword);
 
-        //WiFi.softAP(mySsid, myPassword);
         WiFi.softAP(const_cast<char *>(mySsid.c_str()), const_cast<char *>(myPassword.c_str()));
 
         IPAddress myIP = WiFi.softAPIP();
@@ -131,13 +125,6 @@ void setupWifi()
         Serial.print("Connect Info: ");
         Serial.println(connectInfo);
 
-        /*//qrcode.create(connectInfo);
-        display.clear();
-        display.setTextAlignment(TEXT_ALIGN_CENTER);
-        display.drawString(64, 8, "SSID: " + mySsid);
-        display.drawString(64, 28, "Password: " + myPassword);
-        display.drawString(64, 48, "IP: " + myIP.toString());
-        display.display();*/
         oLed.beAccessPoint(mySsid, myPassword, &myIP);
 
         server.on("/", HTTP_GET, []() {
@@ -231,12 +218,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         String newSsid = payloadJson["what"]["details"]["ssid"].asString();
         String newPassword = payloadJson["what"]["details"]["password"].asString();
 
-        display.clear();
-        display.setTextAlignment(TEXT_ALIGN_CENTER);
-        display.drawString(64, 8, "SSID: " + newSsid);
-        display.drawString(64, 28, "Password: " + newPassword);
-        display.drawString(64, 48, "Reset");
-        display.display();
+        oLed.reset(newSsid, newPassword);
 
         for (int i = 0; i < 96; i++)
         {

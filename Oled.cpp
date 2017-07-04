@@ -36,15 +36,15 @@ void OLed::connecting(String ssid, String password, int percentage)
 
 void OLed::beAccessPoint(String mySsid, String myPassword, IPAddress *myIP)
 {
-    String connectInfo = mySsid + "/" + myPassword + "/" + myIP->toString();
+    /*String connectInfo = mySsid + "/" + myPassword + "/" + myIP->toString();
 
-    qrcode->create(connectInfo);
-    /*display->clear();
+    qrcode->create(connectInfo);*/
+    display->clear();
     display->setTextAlignment(TEXT_ALIGN_CENTER);
     display->drawString(64, 8, "SSID: " + mySsid);
     display->drawString(64, 28, "Password: " + myPassword);
     display->drawString(64, 48, "IP: " + myIP->toString());
-    display->display();*/
+    display->display();
 }
 
 void OLed::connected(String ssid, String localIP)
@@ -54,5 +54,15 @@ void OLed::connected(String ssid, String localIP)
     display->drawString(64, 8, F("Connected"));
     display->drawString(64, 28, ssid);
     display->drawString(64, 48, localIP);
+    display->display();
+}
+
+void OLed::reset(String newSsid, String newPassword)
+{
+    display->clear();
+    display->setTextAlignment(TEXT_ALIGN_CENTER);
+    display->drawString(64, 8, "SSID: " + newSsid);
+    display->drawString(64, 28, "Password: " + newPassword);
+    display->drawString(64, 48, "Reset");
     display->display();
 }

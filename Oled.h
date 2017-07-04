@@ -13,6 +13,7 @@ class OLed
     void connecting(String ssid, String password, int percentage);
     void beAccessPoint(String mySsid, String myPassword, IPAddress *myIP);
     void connected(String ssid, String localIP);
+    void reset(String newSsid, String newPassword);
 
   private:
     OLEDDisplay *display;
