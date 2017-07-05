@@ -23,6 +23,7 @@ OLed oLed(&display, &qrcode);
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include "Wifi.h"
 #include <PubSubClient.h>
 
 //const char *ssid = "MASON-IT";
@@ -34,8 +35,9 @@ const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 WiFiClient espClient;
 //WiFiClientSecure espClient;
 ESP8266WebServer server(80);
+Wifi wifi(&server, &oLed);
 PubSubClient client(espClient);
-String connectInfo;
+//String connectInfo;
 
 void setup()
 {
@@ -48,7 +50,7 @@ void setup()
 
     led.setup();
 
-    setupWifi();
+    wifi.setup();
 
     setupMqtt();
 }
@@ -63,7 +65,7 @@ void loop()
     client.loop();
 }
 
-void setupWifi()
+/*void setupWifi()
 {
     String ssid = "";
 
@@ -181,7 +183,7 @@ void setupWifi()
         Serial.println(WiFi.localIP());
         oLed.connected(ssid, WiFi.localIP().toString());
     }
-}
+}*/
 
 void setupMqtt()
 {
