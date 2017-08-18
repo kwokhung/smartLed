@@ -1,3 +1,4 @@
+#include "Mqtt.h"
 #include "OLed.h"
 #include "Led.h"
 #include <EEPROM.h>
@@ -10,9 +11,6 @@
 #define SDA 12 // GPIO12 / E6 / D6
 
 #define OnboardLED 2 // GPIO2 / E4 / D9
-#define RLED 5       // GPIO5 / E1 / D3
-#define GLED 4       // GPIO4 / E2 / D4
-#define BLED 0       // GPIO0 / E3 / D8
 
 Led led(RLED, GLED, BLED);
 
@@ -33,6 +31,7 @@ Wifi wifi(&server, &oLed);
 WiFiClient espClient;
 //WiFiClientSecure espClient;
 PubSubClient client(espClient);
+Mqtt mqtt(&client, &led, &oLed);
 
 void setup()
 {
@@ -47,17 +46,19 @@ void setup()
 
     wifi.setup();
 
-    setupMqtt();
+    //setupMqtt();
+    mqtt.setup();
 }
 
 void loop()
 {
-    if (!client.connected())
+    /*if (!client.connected())
     {
-        reconnect();
+        mqtt.reconnect();
     }
 
-    client.loop();
+    client.loop();*/
+    mqtt.loop();
 }
 
 void setupMqtt()
