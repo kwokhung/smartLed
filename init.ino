@@ -28,10 +28,10 @@ OLed oLed(&display, &qrcode);
 
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
-WiFiClient espClient;
-//WiFiClientSecure espClient;
 ESP8266WebServer server(80);
 Wifi wifi(&server, &oLed);
+WiFiClient espClient;
+//WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
 void setup()
