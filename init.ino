@@ -18,7 +18,7 @@ QRcode qrcode(&display);
 OLed oLed(display, qrcode);
 
 ESP8266WebServer server(80);
-Wifi wifi(&server, &oLed);
+Wifi wifi(server, oLed);
 
 WiFiClient espClient;
 //WiFiClientSecure espClient;

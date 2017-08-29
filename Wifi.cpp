@@ -6,10 +6,10 @@
 #include <ESP8266WebServer.h>
 #include "OLed.h"
 
-Wifi::Wifi(ESP8266WebServer *server, OLed *oLed)
+Wifi::Wifi(ESP8266WebServer& server, OLed& oLed)
 {
-    this->server = server;
-    this->oLed = oLed;
+    this->server = &server;
+    this->oLed = &oLed;
 }
 
 void Wifi::setup()

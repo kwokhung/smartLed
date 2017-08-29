@@ -13,12 +13,12 @@
 class Wifi
 {
 public:
-  Wifi(ESP8266WebServer *server, OLed *oLed);
+  Wifi(ESP8266WebServer& server, OLed& oLed);
   void setup();
 
 private:
-  ESP8266WebServer *server;
-  OLed *oLed;
+  ESP8266WebServer* server;
+  OLed* oLed;
   String connectInfo;
 };
 
