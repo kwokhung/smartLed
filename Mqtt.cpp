@@ -7,11 +7,11 @@
 
 extern char *mqtt_server;
 
-Mqtt::Mqtt(PubSubClient *client, Led *led, OLed *oLed)
+Mqtt::Mqtt(PubSubClient& client, Led& led, OLed& oLed)
 {
-    this->client = client;
-    this->led = led;
-    this->oLed = oLed;
+    this->client = &client;
+    this->led = &led;
+    this->oLed = &oLed;
 }
 
 void Mqtt::setup()

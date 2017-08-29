@@ -23,7 +23,7 @@ Wifi wifi(server, oLed);
 WiFiClient espClient;
 //WiFiClientSecure espClient;
 PubSubClient client(espClient);
-Mqtt mqtt(&client, &led, &oLed);
+Mqtt mqtt(client, led, oLed);
 
 void setup()
 {
