@@ -14,8 +14,7 @@
 Led led(RLED, GLED, BLED);
 
 SSD1306 display(0x3c, SDA, SCL);
-QRcode qrcode(&display);
-OLed oLed(display, qrcode);
+OLed oLed(display);
 
 ESP8266WebServer server(80);
 Wifi wifi(server, oLed);

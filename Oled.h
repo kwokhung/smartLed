@@ -8,7 +8,7 @@
 class OLed
 {
   public:
-    OLed(OLEDDisplay& display, QRcode& qrcode);
+    OLed(OLEDDisplay& display);
     void setup();
     void connecting(String ssid, String password, int percentage);
     void beAccessPoint(String mySsid, String myPassword, IPAddress *myIP);

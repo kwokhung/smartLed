@@ -3,10 +3,10 @@
 #include <IPAddress.h>
 #include <OLEDDisplay.h>
 
-OLed::OLed(OLEDDisplay& display, QRcode& qrcode)
+OLed::OLed(OLEDDisplay& display) : qrcode(nullptr)
 {
     this->display = &display;
-    this->qrcode = &qrcode;
+    this->qrcode = new QRcode(&display);
 }
 
 void OLed::setup()
@@ -15,7 +15,7 @@ void OLed::setup()
     display->clear();
     display->display();
 
-    // qrcode.debug();
+    //qrcode.debug();
     qrcode->init();
 }
 
@@ -44,12 +44,15 @@ void OLed::beAccessPoint(String mySsid, String myPassword, IPAddress *myIP)
 
 void OLed::connected(String ssid, String localIP)
 {
-    display->clear();
+    String connectInfo = ssid + "/" + localIP ;
+
+    qrcode->create(connectInfo);
+    /*display->clear();
     display->setTextAlignment(TEXT_ALIGN_CENTER);
     display->drawString(64, 8, F("Connected"));
     display->drawString(64, 28, ssid);
     display->drawString(64, 48, localIP);
-    display->display();
+    display->display();*/
 }
 
 void OLed::reset(String newSsid, String newPassword)
