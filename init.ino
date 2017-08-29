@@ -32,9 +32,9 @@ void setup()
     //Serial.begin(115200);
     Serial.begin(57600);
 
-    oLed.setup();
-
     led.setup();
+
+    oLed.setup();
 
     wifi.setup();
 
