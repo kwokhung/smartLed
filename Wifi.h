@@ -13,7 +13,7 @@
 class Wifi
 {
 public:
-  Wifi(ESP8266WebServer& server, OLed& oLed);
+  Wifi(OLed& oLed);
   void setup();
 
 private:

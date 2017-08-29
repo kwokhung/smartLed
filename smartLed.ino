@@ -16,8 +16,7 @@ Led led(RLED, GLED, BLED);
 SSD1306 display(0x3c, SDA, SCL);
 OLed oLed(display);
 
-ESP8266WebServer server(80);
-Wifi wifi(server, oLed);
+Wifi wifi(oLed);
 
 WiFiClient espClient;
 //WiFiClientSecure espClient;
