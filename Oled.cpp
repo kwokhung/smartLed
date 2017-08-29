@@ -3,14 +3,14 @@
 #include <IPAddress.h>
 #include <OLEDDisplay.h>
 
-OLed::OLed(OLEDDisplay *display, QRcode *qrcode)
+OLed::OLed(OLEDDisplay& display, QRcode& qrcode)
 {
     //SSD1306 display(0x3c, SDA, SCL);
     //this->display = &display;
     //QRcode qrcode(&display);
     //this->qrcode = &qrcode;
-    this->display = display;
-    this->qrcode = qrcode;
+    this->display = &display;
+    this->qrcode = &qrcode;
 }
 
 void OLed::setup()

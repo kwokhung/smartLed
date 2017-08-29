@@ -6,16 +6,16 @@
 #include <PubSubClient.h>
 
 #include "init.h"
-#include "Mqtt.h"
-#include "OLed.h"
 #include "Led.h"
+#include "OLed.h"
 #include "Wifi.h"
+#include "Mqtt.h"
 
 Led led(RLED, GLED, BLED);
 
 SSD1306 display(0x3c, SDA, SCL);
 QRcode qrcode(&display);
-OLed oLed(&display, &qrcode);
+OLed oLed(display, qrcode);
 
 ESP8266WebServer server(80);
 Wifi wifi(&server, &oLed);
