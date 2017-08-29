@@ -5,10 +5,6 @@
 
 OLed::OLed(OLEDDisplay& display, QRcode& qrcode)
 {
-    //SSD1306 display(0x3c, SDA, SCL);
-    //this->display = &display;
-    //QRcode qrcode(&display);
-    //this->qrcode = &qrcode;
     this->display = &display;
     this->qrcode = &qrcode;
 }
@@ -21,7 +17,6 @@ void OLed::setup()
 
     // qrcode.debug();
     qrcode->init();
-    //qrcode.create("Hello world.");
 }
 
 void OLed::connecting(String ssid, String password, int percentage)
