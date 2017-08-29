@@ -1,3 +1,7 @@
+#define RLED 5 // GPIO5 / E1 / D3
+#define GLED 4 // GPIO4 / E2 / D4
+#define BLED 0 // GPIO0 / E3 / D8
+
 #define RX0 3 // GPIO3 / RX / D0
 #define TX0 1 // GPIO1 / TX / D1
 

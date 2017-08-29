@@ -33,3 +33,18 @@ void Led::lightIt(int led, int brightness)
         digitalWrite(led, HIGH);
     }
 }
+
+void Led::lightItR(int brightness)
+{
+    this->lightIt(this->_rPin, brightness);
+}
+
+void Led::lightItG(int brightness)
+{
+    this->lightIt(this->_gPin, brightness);
+}
+
+void Led::lightItB(int brightness)
+{
+    this->lightIt(this->_bPin, brightness);
+}
