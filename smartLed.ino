@@ -1,11 +1,6 @@
-#include <ArduinoJson.h>
 #include <EEPROM.h>
-#include <SSD1306.h>
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
-#include <PubSubClient.h>
 
-#include "init.h"
+#include "App.h"
 #include "Led.h"
 #include "OLed.h"
 #include "Wifi.h"

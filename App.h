@@ -1,3 +1,6 @@
+#ifndef App_h
+#define App_h
+
 #define RLED 5 // GPIO5 / E1 / D3
 #define GLED 4 // GPIO4 / E2 / D4
 #define BLED 0 // GPIO0 / E3 / D8
@@ -10,4 +13,4 @@
 
 #define OnboardLED 2 // GPIO2 / E4 / D9
 
-const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
+#endif
