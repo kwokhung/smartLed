@@ -15,6 +15,7 @@
 #define OLed_SCL_PIN 14 // GPIO14 / E5 / D5
 
 #include "Led.h"
+#include "OLed.h"
 
 class App
 {
@@ -24,6 +25,7 @@ class App
     void setup();
 
     Led* led;
-};
+    OLed* oLed;
+  };
 
 #endif

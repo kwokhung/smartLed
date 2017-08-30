@@ -1,17 +1,14 @@
 #include "App.h"
-#include "OLed.h"
 #include "Wifi.h"
 #include "Mqtt.h"
 
 App app;
-OLed oLed(OLed_ADDRESS, OLed_SDA_PIN, OLed_SCL_PIN);
-Wifi wifi(oLed);
-Mqtt mqtt(*app.led, oLed);
+Wifi wifi(*app.oLed);
+Mqtt mqtt(*app.led, *app.oLed);
 
 void setup()
 {
     app.setup();
-    oLed.setup();
     wifi.setup();
     mqtt.setup();
 }
