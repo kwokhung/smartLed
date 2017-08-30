@@ -1,5 +1,6 @@
-#include "Led.h"
 #include <Arduino.h>
+
+#include "Led.h"
 
 Led::Led(int rPin, int gPin, int bPin) : rPin(rPin), gPin(gPin), bPin(bPin)
 {
@@ -17,9 +18,6 @@ void Led::setup()
 
 void Led::light(int pin, int brightness)
 {
-    Serial.print('*');
-    Serial.print(brightness);
-
     if (brightness > 0)
     {
         analogWrite(pin, 1023 - brightness);
