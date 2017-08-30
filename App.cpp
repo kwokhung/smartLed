@@ -33,3 +33,8 @@ void App::setup()
     wifi->setup();
     mqtt->setup();
 }
+
+Mqtt *App::getMqtt()
+{
+    return mqtt;
+}

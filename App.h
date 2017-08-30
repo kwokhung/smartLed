@@ -28,7 +28,9 @@ public:
   App();
 
   void setup();
+  Mqtt *getMqtt();
 
+private:
   Led *led;
   OLed *oLed;
   Wifi *wifi;

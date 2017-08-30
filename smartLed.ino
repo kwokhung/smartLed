@@ -9,5 +9,5 @@ void setup()
 
 void loop()
 {
-    app.mqtt->loop();
+    app.getMqtt()->loop();
 }
