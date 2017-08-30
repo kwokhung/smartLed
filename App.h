@@ -14,12 +14,16 @@
 #define OLed_SDA_PIN 12 // GPIO12 / E6 / D6
 #define OLed_SCL_PIN 14 // GPIO14 / E5 / D5
 
+#include "Led.h"
+
 class App
 {
   public:
     App();
-    
+
     void setup();
+
+    Led* led;
 };
 
 #endif
