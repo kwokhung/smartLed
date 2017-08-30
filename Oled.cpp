@@ -1,10 +1,12 @@
 #include "OLed.h"
 #include <Arduino.h>
 #include <IPAddress.h>
-#include <OLEDDisplay.h>
+#include <SSD1306.h>
 
-OLed::OLed(OLEDDisplay& display) : qrcode(nullptr)
+OLed::OLed() : qrcode(nullptr)
 {
+    static SSD1306 display(0x3c, SDA, SCL);
+    
     this->display = &display;
     this->qrcode = new QRcode(&display);
 }

@@ -13,8 +13,7 @@
 
 Led led(RLED, GLED, BLED);
 
-SSD1306 display(0x3c, SDA, SCL);
-OLed oLed(display);
+OLed oLed;
 
 Wifi wifi(oLed);
 
