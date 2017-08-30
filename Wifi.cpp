@@ -7,7 +7,9 @@
 #include "OLed.h"
 #include "Wifi.h"
 
-Wifi::Wifi(OLed& oLed) : server(new ESP8266WebServer(80)), oLed(&oLed)
+Wifi::Wifi(OLed &oLed)
+    : server(new ESP8266WebServer(80)),
+      oLed(&oLed)
 {
 }
 
@@ -127,7 +129,7 @@ void Wifi::setup()
         Serial.println("WiFi connected");
         Serial.println("IP address: ");
         Serial.println(WiFi.localIP());
-        
+
         oLed->connected(ssid, WiFi.localIP().toString());
     }
 }

@@ -2,7 +2,10 @@
 
 #include "Led.h"
 
-Led::Led(int rPin, int gPin, int bPin) : rPin(rPin), gPin(gPin), bPin(bPin)
+Led::Led(int rPin, int gPin, int bPin)
+    : rPin(rPin),
+      gPin(gPin),
+      bPin(bPin)
 {
 }
 

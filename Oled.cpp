@@ -3,7 +3,9 @@
 
 #include "OLed.h"
 
-OLed::OLed(int address, int sdaPin, int sclPin) : display(new SSD1306(address, sdaPin, sclPin)), qrcode(new QRcode(display))
+OLed::OLed(int address, int sdaPin, int sclPin)
+    : display(new SSD1306(address, sdaPin, sclPin)),
+      qrcode(new QRcode(display))
 {
 }
 
@@ -42,7 +44,7 @@ void OLed::beAccessPoint(String mySsid, String myPassword, IPAddress *myIP)
 
 void OLed::connected(String ssid, String localIP)
 {
-    String connectInfo = ssid + "/" + localIP ;
+    String connectInfo = ssid + "/" + localIP;
 
     qrcode->create(connectInfo);
     /*display->clear();

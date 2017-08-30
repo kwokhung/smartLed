@@ -8,17 +8,17 @@
 
 class Mqtt
 {
-  public:
-    Mqtt(Led& led, OLed& oLed);
-    
-    void setup();
-    void loop();
-    void reconnect();
-    
-  private:
-    PubSubClient* client;
-    Led* led;
-    OLed* oLed;
+public:
+  Mqtt(Led &led, OLed &oLed);
+
+  void setup();
+  void loop();
+  void reconnect();
+
+private:
+  PubSubClient *client;
+  Led *led;
+  OLed *oLed;
 };
 
 #endif
