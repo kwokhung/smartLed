@@ -6,7 +6,7 @@
 
 App app;
 Led led(RLED, GLED, BLED);
-OLed oLed;
+OLed oLed(OLed_ADDRESS, OLed_SDA, OLed_SCL);
 Wifi wifi(oLed);
 Mqtt mqtt(led, oLed);
 

@@ -10,9 +10,9 @@
 #define RX0 3 // GPIO3 / RX / D0
 #define TX0 1 // GPIO1 / TX / D1
 
-#define SCL 14 // GPIO14 / E5 / D5
-#define SCL 14 // GPIO14 / E5 / D5
-#define SDA 12 // GPIO12 / E6 / D6
+#define OLed_ADDRESS 0x3c
+#define OLed_SCL 14 // GPIO14 / E5 / D5
+#define OLed_SDA 12 // GPIO12 / E6 / D6
 
 class App
 {
