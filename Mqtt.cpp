@@ -7,7 +7,7 @@
 #include "OLed.h"
 #include "Mqtt.h"
 
-extern char *mqtt_server;
+extern char *mqttUrl;
 
 Mqtt::Mqtt(Led& led, OLed& oLed) : client(new PubSubClient(*new WiFiClient())), led(&led), oLed(&oLed)
 {
@@ -17,8 +17,8 @@ Mqtt::Mqtt(Led& led, OLed& oLed) : client(new PubSubClient(*new WiFiClient())), 
 
 void Mqtt::setup()
 {
-    client->setServer(mqtt_server, 1883);
-    //client->setServer(mqtt_server, 1884);
+    client->setServer(mqttUrl, 1883);
+    //client->setServer(mqttUrl, 1884);
 
     client->setCallback([&](char *topic, byte *payload, unsigned int length) {
         Serial.print("Message arrived [");

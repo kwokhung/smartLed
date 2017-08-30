@@ -12,7 +12,7 @@
 //const char *ssid = "mxjk";
 //const char *password = "mxjk2015";
 
-const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
+const char *mqttUrl = "mbltest01.mqtt.iot.gz.baidubce.com";
 
 App::App() : led(new Led(LED_R_PIN, LED_G_PIN, LED_B_Pin)),
              oLed(new OLed(OLed_ADDRESS, OLed_SDA_PIN, OLed_SCL_PIN)),
@@ -23,10 +23,9 @@ App::App() : led(new Led(LED_R_PIN, LED_G_PIN, LED_B_Pin)),
 
 void App::setup()
 {
-    EEPROM.begin(512);
+    EEPROM.begin(EEPROM_SIZE);
 
-    Serial.begin(115200);
-    //Serial.begin(57600);
+    Serial.begin(SERIAL_RATE);
 
     led->setup();
     oLed->setup();
