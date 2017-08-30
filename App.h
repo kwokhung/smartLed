@@ -13,4 +13,11 @@
 
 #define OnboardLED 2 // GPIO2 / E4 / D9
 
+class App
+{
+  public:
+    App();
+    void setup();
+};
+
 #endif
