@@ -71,9 +71,9 @@ void Mqtt::setup()
         }
         else
         {
-            led->lightItR(payloadJson["RVALUE"].as<int>());
-            led->lightItG(payloadJson["GVALUE"].as<int>());
-            led->lightItB(payloadJson["BVALUE"].as<int>());
+            led->lightR(payloadJson["RVALUE"].as<int>());
+            led->lightG(payloadJson["GVALUE"].as<int>());
+            led->lightB(payloadJson["BVALUE"].as<int>());
         }
 
         Serial.println('*');

@@ -1,50 +1,47 @@
 #include "Led.h"
 #include <Arduino.h>
 
-Led::Led(int rPin, int gPin, int bPin)
+Led::Led(int rPin, int gPin, int bPin) : rPin(rPin), gPin(gPin), bPin(bPin)
 {
-    _rPin = rPin;
-    _gPin = gPin;
-    _bPin = bPin;
 }
 
 void Led::setup()
 {
-    pinMode(_rPin, OUTPUT);
-    pinMode(_gPin, OUTPUT);
-    pinMode(_bPin, OUTPUT);
-    digitalWrite(_rPin, HIGH);
-    digitalWrite(_gPin, HIGH);
-    digitalWrite(_bPin, HIGH);
+    pinMode(rPin, OUTPUT);
+    pinMode(gPin, OUTPUT);
+    pinMode(bPin, OUTPUT);
+    digitalWrite(rPin, HIGH);
+    digitalWrite(gPin, HIGH);
+    digitalWrite(bPin, HIGH);
 }
 
-void Led::lightIt(int led, int brightness)
+void Led::light(int pin, int brightness)
 {
     Serial.print('*');
     Serial.print(brightness);
 
     if (brightness > 0)
     {
-        analogWrite(led, 1023 - brightness);
+        analogWrite(pin, 1023 - brightness);
     }
     else if (brightness == 0)
     {
-        analogWrite(led, 1023);
-        digitalWrite(led, HIGH);
+        analogWrite(pin, 1023);
+        digitalWrite(pin, HIGH);
     }
 }
 
-void Led::lightItR(int brightness)
+void Led::lightR(int brightness)
 {
-    this->lightIt(this->_rPin, brightness);
+    light(rPin, brightness);
 }
 
-void Led::lightItG(int brightness)
+void Led::lightG(int brightness)
 {
-    this->lightIt(this->_gPin, brightness);
+    light(gPin, brightness);
 }
 
-void Led::lightItB(int brightness)
+void Led::lightB(int brightness)
 {
-    this->lightIt(this->_bPin, brightness);
+    light(bPin, brightness);
 }
