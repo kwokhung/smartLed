@@ -3,6 +3,7 @@
 
 #include "Led.h"
 #include "OLed.h"
+#include "Wifi.h"
 #include "App.h"
 
 //const char *ssid = "MASON-IT";
@@ -13,7 +14,8 @@
 const char *mqtt_server = "mbltest01.mqtt.iot.gz.baidubce.com";
 
 App::App() : led(new Led(LED_R_PIN, LED_G_PIN, LED_B_Pin)),
-             oLed(new OLed(OLed_ADDRESS, OLed_SDA_PIN, OLed_SCL_PIN))
+             oLed(new OLed(OLed_ADDRESS, OLed_SDA_PIN, OLed_SCL_PIN)),
+             wifi(new Wifi(*oLed))
 {
 }
 
@@ -26,4 +28,5 @@ void App::setup()
 
     led->setup();
     oLed->setup();
+    wifi->setup();
 }

@@ -16,6 +16,7 @@
 
 #include "Led.h"
 #include "OLed.h"
+#include "Wifi.h"
 
 class App
 {
@@ -26,6 +27,7 @@ class App
 
     Led* led;
     OLed* oLed;
+    Wifi* wifi;
   };
 
 #endif
