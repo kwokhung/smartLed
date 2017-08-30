@@ -1,18 +1,18 @@
 #ifndef App_h
 #define App_h
 
-#define OnboardLED 2 // GPIO2 / E4 / D9
+#define LED_ONBOARD_PIN 2 // GPIO2 / E4 / D9
 
-#define RLED 5 // GPIO5 / E1 / D3
-#define GLED 4 // GPIO4 / E2 / D4
-#define BLED 0 // GPIO0 / E3 / D8
+#define LED_R_PIN 5 // GPIO5 / E1 / D3
+#define LED_G_PIN 4 // GPIO4 / E2 / D4
+#define LED_B_Pin 0 // GPIO0 / E3 / D8
 
-#define RX0 3 // GPIO3 / RX / D0
-#define TX0 1 // GPIO1 / TX / D1
+#define SERIAL_RX0_PIN 3 // GPIO3 / RX / D0
+#define SERIAL_TX0_PIN 1 // GPIO1 / TX / D1
 
 #define OLed_ADDRESS 0x3c
-#define OLed_SCL 14 // GPIO14 / E5 / D5
-#define OLed_SDA 12 // GPIO12 / E6 / D6
+#define OLed_SDA_PIN 12 // GPIO12 / E6 / D6
+#define OLed_SCL_PIN 14 // GPIO14 / E5 / D5
 
 class App
 {
