@@ -9,14 +9,10 @@
 
 extern char *mqtt_server;
 
-Mqtt::Mqtt(Led& led, OLed& oLed)
+Mqtt::Mqtt(Led& led, OLed& oLed) : client(new PubSubClient(*new WiFiClient())), led(&led), oLed(&oLed)
 {
     //WiFiClient* espClient = new WiFiClient();
     //WiFiClientSecure* espClient = new WiFiClientSecure;
-    
-    this->client = new PubSubClient(*new WiFiClient());
-    this->led = &led;
-    this->oLed = &oLed;
 }
 
 void Mqtt::setup()
