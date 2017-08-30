@@ -8,7 +8,7 @@
 class OLed
 {
   public:
-    OLed(int address, int sda, int scl);
+    OLed(int address, int sdaPin, int sclPin);
     void setup();
     void connecting(String ssid, String password, int percentage);
     void beAccessPoint(String mySsid, String myPassword, IPAddress *myIP);

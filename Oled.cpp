@@ -3,9 +3,9 @@
 #include <IPAddress.h>
 #include <SSD1306.h>
 
-OLed::OLed(int address, int sda, int scl) : display(nullptr), qrcode(nullptr)
+OLed::OLed(int address, int sdaPin, int sclPin) : display(nullptr), qrcode(nullptr)
 {
-    display = new SSD1306(address, sda, scl);
+    display = new SSD1306(address, sdaPin, sclPin);
     qrcode = new QRcode(display);
 }
 
