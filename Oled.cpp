@@ -3,12 +3,10 @@
 #include <IPAddress.h>
 #include <SSD1306.h>
 
-OLed::OLed() : qrcode(nullptr)
+OLed::OLed() : display(nullptr), qrcode(nullptr)
 {
-    static SSD1306 display(0x3c, SDA, SCL);
-    
-    this->display = &display;
-    this->qrcode = new QRcode(&display);
+    display = new SSD1306(0x3c, SDA, SCL);
+    qrcode = new QRcode(display);
 }
 
 void OLed::setup()
