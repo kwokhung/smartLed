@@ -1,5 +1,6 @@
 #include <EEPROM.h>
 #include <ArduinoJson.h>
+#include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include "Mqtt.h"
 #include "OLed.h"
@@ -7,9 +8,12 @@
 
 extern char *mqtt_server;
 
-Mqtt::Mqtt(PubSubClient& client, Led& led, OLed& oLed)
+Mqtt::Mqtt(Led& led, OLed& oLed)
 {
-    this->client = &client;
+    //WiFiClient* espClient = new WiFiClient();
+    //WiFiClientSecure* espClient = new WiFiClientSecure;
+    
+    this->client = new PubSubClient(*new WiFiClient());
     this->led = &led;
     this->oLed = &oLed;
 }

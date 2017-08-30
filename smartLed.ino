@@ -18,10 +18,7 @@ OLed oLed(display);
 
 Wifi wifi(oLed);
 
-WiFiClient espClient;
-//WiFiClientSecure espClient;
-PubSubClient client(espClient);
-Mqtt mqtt(client, led, oLed);
+Mqtt mqtt(led, oLed);
 
 void setup()
 {

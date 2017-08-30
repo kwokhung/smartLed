@@ -8,7 +8,7 @@
 class Mqtt
 {
   public:
-    Mqtt(PubSubClient& client, Led& led, OLed& oLed);
+    Mqtt(Led& led, OLed& oLed);
     void setup();
     void loop();
     void reconnect();
