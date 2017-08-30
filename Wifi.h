@@ -10,6 +10,7 @@ class Wifi
 {
 public:
   Wifi(OLed& oLed);
+  
   void setup();
 
 private:
