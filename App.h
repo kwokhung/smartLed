@@ -17,17 +17,19 @@
 #include "Led.h"
 #include "OLed.h"
 #include "Wifi.h"
+#include "Mqtt.h"
 
 class App
 {
-  public:
-    App();
+public:
+  App();
 
-    void setup();
+  void setup();
 
-    Led* led;
-    OLed* oLed;
-    Wifi* wifi;
-  };
+  Led *led;
+  OLed *oLed;
+  Wifi *wifi;
+  Mqtt *mqtt;
+};
 
 #endif
