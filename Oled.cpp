@@ -1,12 +1,10 @@
-#include "OLed.h"
-#include <Arduino.h>
 #include <IPAddress.h>
 #include <SSD1306.h>
 
-OLed::OLed(int address, int sdaPin, int sclPin) : display(nullptr), qrcode(nullptr)
+#include "OLed.h"
+
+OLed::OLed(int address, int sdaPin, int sclPin) : display(new SSD1306(address, sdaPin, sclPin)), qrcode(new QRcode(display))
 {
-    display = new SSD1306(address, sdaPin, sclPin);
-    qrcode = new QRcode(display);
 }
 
 void OLed::setup()
