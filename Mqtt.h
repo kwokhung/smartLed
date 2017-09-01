@@ -9,7 +9,7 @@
 class Mqtt
 {
 public:
-  Mqtt(Led &led, OLed &oLed);
+  Mqtt(char *mqttUrl, Led &led, OLed &oLed);
 
   void setup();
   void loop();
@@ -17,6 +17,7 @@ public:
 
 private:
   PubSubClient *client;
+  char *mqttUrl;
   Led *led;
   OLed *oLed;
 };

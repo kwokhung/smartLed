@@ -7,10 +7,9 @@
 #include "OLed.h"
 #include "Mqtt.h"
 
-extern char *mqttUrl;
-
-Mqtt::Mqtt(Led &led, OLed &oLed)
+Mqtt::Mqtt(char *mqttUrl, Led &led, OLed &oLed)
     : client(new PubSubClient(*new WiFiClient())),
+      mqttUrl(mqttUrl),
       led(&led),
       oLed(&oLed)
 {
