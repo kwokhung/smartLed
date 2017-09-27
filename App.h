@@ -19,9 +19,14 @@
 
 #define MQTT_URL "mbltest01.mqtt.iot.gz.baidubce.com"
 
+#define TINY_GSM_MODEM_A6
+
 #include "Led.h"
 #include "OLed.h"
 #include "Wifi.h"
+
+#include "TinyGsmClient.h"
+
 #include "Mqtt.h"
 
 class App
