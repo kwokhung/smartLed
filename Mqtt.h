@@ -1,6 +1,9 @@
 #ifndef Mqtt_h
 #define Mqtt_h
 
+#define TINY_GSM_MODEM_A6
+
+#include "TinyGsmClient.h"
 #include <PubSubClient.h>
 
 #include "Led.h"
@@ -16,6 +19,8 @@ public:
   void reconnect();
 
 private:
+  TinyGsm *modem;
+  TinyGsmClient *gsmClient;
   PubSubClient *client;
   char *mqttUrl;
   Led *led;
