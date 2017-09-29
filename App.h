@@ -22,7 +22,7 @@
 #include "Led.h"
 #include "OLed.h"
 #include "Wifi.h"
-
+#include "Gprs.h"
 #include "Mqtt.h"
 
 class App
@@ -37,6 +37,7 @@ private:
   Led *led;
   OLed *oLed;
   Wifi *wifi;
+  Gprs *gprs;
   Mqtt *mqtt;
 };
 

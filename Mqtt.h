@@ -1,9 +1,7 @@
 #ifndef Mqtt_h
 #define Mqtt_h
 
-#define TINY_GSM_MODEM_A6
-
-#include "TinyGsmClient.h"
+#include "Gprs.h"
 #include <PubSubClient.h>
 
 #include "Led.h"
@@ -12,15 +10,14 @@
 class Mqtt
 {
 public:
-  Mqtt(char *mqttUrl, Led &led, OLed &oLed);
+  Mqtt(Gprs &gprs, char *mqttUrl, Led &led, OLed &oLed);
 
   void setup();
   void loop();
   void reconnect();
 
 private:
-  TinyGsm *modem;
-  TinyGsmClient *gsmClient;
+  Gprs *gprs;
   PubSubClient *client;
   char *mqttUrl;
   Led *led;
