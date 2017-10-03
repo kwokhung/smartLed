@@ -5,7 +5,7 @@ SoftwareSerial SerialAT(13, 15); // RX, TX
 
 #include "Gprs.h"
 
-Gprs::Gprs()
+Gprs::Gprs(char *apn)
     : modem(new TinyGsm(SerialAT)),
       gsmClient(new TinyGsmClient(*modem))
 {

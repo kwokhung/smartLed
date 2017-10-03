@@ -8,7 +8,7 @@
 class Gprs
 {
 public:
-  Gprs();
+  Gprs(char *apn);
 
   void setup();
   TinyGsmClient *getGsmClient();
@@ -16,6 +16,7 @@ public:
 private:
     TinyGsm *modem;
     TinyGsmClient *gsmClient;
+    char *apn;
   };
 
 #endif
