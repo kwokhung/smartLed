@@ -7,14 +7,19 @@
 #include "OLed.h"
 #include "Mqtt.h"
 
-Mqtt::Mqtt(char *mqttUrl, Led &led, OLed &oLed)
-    : client(new PubSubClient(*new WiFiClient())),
+Mqtt::Mqtt(Gprs &gprs, char *mqttUrl, Led &led, OLed &oLed)
+    : gprs(&gprs),
+      //client(new PubSubClient(*new WiFiClient())),
+      client(new PubSubClient(*this->gprs->getGsmClient())),
       mqttUrl(mqttUrl),
       led(&led),
       oLed(&oLed)
 {
     //WiFiClient* espClient = new WiFiClient();
     //WiFiClientSecure* espClient = new WiFiClientSecure;
+    //client = new PubSubClient(*new WiFiClient());
+    //this->gprs = &gprs;
+    //client = new PubSubClient(*this->gprs->getGsmClient());
 }
 
 void Mqtt::setup()
